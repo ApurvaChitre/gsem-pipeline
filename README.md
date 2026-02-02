@@ -4,7 +4,7 @@ This repo is a **TSCC/Slurm-friendly** workflow to run a **GenomicSEM usermodel 
 
 It is intentionally narrow:
 - ✅ supports **one-factor usermodel** (common factor)
-- ✅ handles **any number of traits** (no hard-coded “N=6 traits” assumptions)
+- ✅ handles **any number of traits** 
 - ✅ creates **`results/gwas/*.mlma`** outputs for downstream reporting
 - ✅ includes helpers to **resubmit only failed GWAS chunks**
 - ❌ does **not** ship code for “1F + residual covariances”, 2-factor variants, bifactor, clustering/heatmaps, etc.
