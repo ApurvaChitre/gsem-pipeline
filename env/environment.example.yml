@@ -1,0 +1,21 @@
+name: genomic_sem
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - plink
+  - python>=3.10
+  - r-base=4.3
+  - r-data.table
+  - r-dplyr
+  - r-readr
+  - r-stringr
+  - r-optparse
+  - r-ggplot2
+  - r-matrix
+  - r-remotes
+  - r-devtools
+  # GenomicSEM may or may not be available as a conda R package depending on channels.
+  # If it doesn't install via conda, use env/install_genomicsem_from_github.R.
+  - r-genomicsem

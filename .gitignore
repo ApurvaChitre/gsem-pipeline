@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+
+# Conda
+.env
+
+# Outputs (if users run inside the repo by accident)
+logs/
+results/
+multivariate_gwas_report/
+sum_stats_final/
+split_sumstats/
+geno/
+
+# R
+.Rhistory
+.RData
+*.RData
+*.rds
+
+# Slurm
+*.out
+*.err
