@@ -67,20 +67,23 @@ Warnings are written to plain-text files (not CSV) so nothing “breaks” due t
 ## Workflow diagram
 
 ```mermaid
+%%{init: {"flowchart": {"diagramPadding": 20, "nodeSpacing": 70, "rankSpacing": 80, "useMaxWidth": true}}}%%
 flowchart TD
   A["MPH pipeline outputs<br/>MPH_genomicSEM.RData + pheno dict"] --> B["Step 0: Preflight<br/>PD + smoothing + quick 1F fit"]
-  B -->|pass| C["Step 1: Format univariate GWAS → sum_stats_final/*.txt"]
-  B -->|fail| Z["STOP<br/>inspect preflight outputs<br/>drop trait; rerun MPH"]
 
-  C --> D["Step 2: PLINK --freq → ref_gSEM_frq.txt"]
-  D --> E["Step 3: GenomicSEM::sumstats()<br/>mySumstatsGSEM.RData"]
-  E --> F["Step 4: Split sumstats into SNP chunks<br/>subsets/sumstats_subset_*.RData"]
-  F --> G["Step 5: Fit usermodel once (Phase A)<br/>write fit stats + warnings"]
+  B --> D{"Preflight<br/>result?"}
+  D -->|pass| C["Step 1: Format univariate GWAS<br/>sum_stats_final/<br/>*.txt"]
+  D -->|fail| Z["STOP<br/>inspect preflight outputs<br/>drop trait; rerun MPH"]
 
-  G -->|RUN_USERGWAS=0| H["STOP<br/>review model fit outputs"]
-  G -->|RUN_USERGWAS=1| I["Step 6: userGWAS Slurm array<br/>1 task per chunk"]
-  I --> J["Step 7: Compile chunk outputs → *.mlma"]
-  J --> K["Step 8: Prepare multivariate_gwas_report/ scaffold"]
+  C --> E["Step 2: PLINK --freq<br/>ref_gSEM_frq.txt"]
+  E --> F["Step 3: GenomicSEM::sumstats()<br/>mySumstatsGSEM.RData"]
+  F --> G["Step 4: Split sumstats into SNP chunks<br/>subsets/<br/>sumstats_subset_*.RData"]
+  G --> H["Step 5: Fit usermodel once (Phase A)<br/>write fit stats + warnings"]
+
+  H -->|RUN_USERGWAS=0| I["STOP<br/>review model fit outputs"]
+  H -->|RUN_USERGWAS=1| J["Step 6: userGWAS Slurm array<br/>1 task per chunk"]
+  J --> K["Step 7: Compile chunk outputs<br/>*.mlma"]
+  K --> L["Step 8: Prepare report scaffold<br/>multivariate_gwas_report/"]
 ```
 
 ## Checkpoints and restart points
