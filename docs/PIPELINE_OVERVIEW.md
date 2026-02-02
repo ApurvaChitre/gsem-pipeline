@@ -67,7 +67,7 @@ Warnings are written to plain-text files (not CSV) so nothing “breaks” due t
 ## Workflow diagram
 
 ```mermaid
-%%{init: {"flowchart": {"diagramPadding": 20, "nodeSpacing": 70, "rankSpacing": 80, "useMaxWidth": true}}}%%
+%%{init: {"theme":"base","fontSize":14,"flowchart":{"diagramPadding":20}} }%%
 flowchart TD
   A["MPH pipeline outputs<br/>MPH_genomicSEM.RData + pheno dict"] --> B["Step 0: Preflight<br/>PD + smoothing + quick 1F fit"]
 
