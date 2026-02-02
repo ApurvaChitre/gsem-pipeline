@@ -1,0 +1,10 @@
+F1 =~ p50_david_dietz_locomotor_distance_first_15mins +
+      p50_hao_chen_open_field_first_15 +
+      p50_meyer_2020_blackout10 +
+      p50_shelly_flagel_2014_d1_first_15 +
+      u01_peter_kalivas_us_oft_distance_1_first_15 +
+      u01_suzanne_mitchell_locomotor_t1_total_distance +
+      u01_tom_jhou_session1_locomotor1
+
+p50_hao_chen_open_field_first_15 ~~ p50_shelly_flagel_2014_d1_first_15
+p50_meyer_2020_blackout10 ~~ u01_tom_jhou_session1_locomotor1
