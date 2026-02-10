@@ -57,7 +57,15 @@ data_dict_out <- get_arg("--data_dict_out",
 )
 
 # -----------------------------
-# Measures to create (NO regressedlr_)
+# Measures to create
+#
+# data_dict convention: measures are WITHOUT the "regressedlr_" prefix.
+# (The processed_data_ready.csv columns typically DO have the "regressedlr_" prefix.)
+#
+# For convenience, you may pass measures either as:
+#   - trait_a,trait_b
+#   - regressedlr_trait_a,regressedlr_trait_b
+#
 # Provide either:
 #   --measures=locomotor_metal,locomotor_metal_nogc
 # or:
@@ -79,12 +87,22 @@ read_measures <- function(x) {
   v
 }
 
-measures <- read_measures(get_arg("--measures", NULL))
+measures_raw <- read_measures(get_arg("--measures", NULL))
+
+# Normalize: accept measures with or without a leading regressedlr_ prefix,
+# but store measures WITHOUT the prefix (data_dict convention).
+measures <- sub("^regressedlr_", "", measures_raw)
+measures <- trimws(measures)
+measures <- measures[measures != ""]
+measures <- unique(measures)
+
+if (length(measures) == 0) stop("No valid measures left after stripping optional regressedlr_ prefix")
 
 msg("DEST: processed_out -> %s", processed_out)
 msg("DEST: data_dict_out -> %s", data_dict_out)
 msg("Using source_trait_col: %s", source_trait_col)
-msg("Measures to create: %s", paste(measures, collapse = ", "))
+msg("Measures to create (data_dict; no regressedlr_ prefix): %s", paste(measures, collapse = ", "))
+msg("Processed_data_ready columns that will be created: %s", paste(paste0("regressedlr_", measures), collapse = ", "))
 
 # -----------------------------
 # 1) processed_data_ready: add regressedlr_<measure> columns copied from mega trait
@@ -104,7 +122,7 @@ for (m in measures) {
   processed[, (new_col) := get(source_trait_col)]
 }
 
-# Optional: if you want to DROP the old mega trait column in output, uncomment:
+# Drop the original mega trait column in output (keeps only the new regressedlr_<measure> columns):
 processed[, (source_trait_col) := NULL]
 
 dir.create(dirname(processed_out), recursive = TRUE, showWarnings = FALSE)

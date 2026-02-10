@@ -67,12 +67,12 @@ if [[ "${RUN_CREATE_DUMMY_PHENO:-0}" == "1" ]]; then
 
   Rscript "${REPO_DIR}/scripts/08_create_data_dict_processed_data_ready.R" \
     --measures="${REPORT_MEASURES}" \
-    --processed_in="${PROCESSED_IN_FOR_REPORT}" \
-    --data_dict_in="${DATA_DICT_IN_FOR_REPORT}" \
+    --processed_in="${PROCESSED_IN}" \
+    --data_dict_in="${DATA_DICT_IN}" \
     --processed_out="${MULTIVAR_REPORT_DIR}/processed_data_ready.csv" \
     --data_dict_out="${MULTIVAR_REPORT_DIR}/data_dict_multivariate_gwas_report.csv" \
-    --source_trait_col="${SOURCE_TRAIT_COL_FOR_REPORT}" \
-    --source_dict_measure="${SOURCE_DICT_MEASURE_FOR_REPORT}"
+    --source_trait_col="${SOURCE_TRAIT_COL}" \
+    --source_dict_measure="${SOURCE_DICT_MEASURE}"
 fi
 
 echo "[prepare_report] Done: ${MULTIVAR_REPORT_DIR}"

@@ -66,7 +66,22 @@ Warnings are written to plain-text files (not CSV) so nothing “breaks” due t
 
 ## Workflow diagram
 
-![GSEM pipeline overview](gsem_pipeline_flowchart_hi.png)
+```mermaid
+flowchart TD
+  A[MPH pipeline outputs\nMPH_genomicSEM.RData + pheno dict] --> B[Step 0: Preflight\nPD + smoothing + quick 1F fit]
+  B -->|pass| C[Step 1: Format univariate GWAS -> sum_stats_final/*.txt]
+  B -->|fail| Z[STOP\ninspect preflight outputs\n(drop trait / rerun MPH)]
+
+  C --> D[Step 2: PLINK --freq -> ref_gSEM_frq.txt]
+  D --> E[Step 3: GenomicSEM::sumstats()\nmySumstatsGSEM.RData]
+  E --> F[Step 4: Split sumstats into SNP chunks\nsubsets/sumstats_subset_*.RData]
+  F --> G[Step 5: Fit usermodel once (Phase A)\nwrite fit stats + warnings]
+
+  G -->|RUN_USERGWAS=0| H[STOP\nreview model fit outputs]
+  G -->|RUN_USERGWAS=1| I[Step 6: userGWAS Slurm array\n1 task per chunk]
+  I --> J[Step 7: Compile chunk outputs -> *.mlma]
+  J --> K[Step 8: Prepare multivariate_gwas_report/ scaffold]
+```
 
 ## Checkpoints and restart points
 
