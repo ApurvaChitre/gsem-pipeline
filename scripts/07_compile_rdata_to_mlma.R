@@ -289,10 +289,10 @@ for (model_pat in model_patterns) {
         filter(Chr == chr) %>%
         select(Chr, bp, SNP, A1, A2, Freq, b, se, p)
       
-      out_file <- file.path(
-        out_dir,
-        sprintf("%s_%s_%s_chrgwas%d.mlma", prefix, safe_model, safe_fac, chr)
-      )
+      # Downstream pipelines sometimes assume filenames are lowercase.
+      # Lowercase ONLY the basename (not the directory path) to avoid case-sensitive path issues.
+      out_base <- sprintf("%s_%s_%s_chrgwas%d.mlma", prefix, safe_model, safe_fac, chr)
+      out_file <- file.path(out_dir, tolower(out_base))
       
       write.table(df_chr, file = out_file, sep = "\t", row.names = FALSE, quote = FALSE)
     }
